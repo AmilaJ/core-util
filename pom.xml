@@ -36,6 +36,7 @@
 
     <modules>
         <module>components/mi-util</module>
+        <module>components/cache-manager</module>
         <module>components/dbutil</module>
         <module>components/mnc-resolver</module>
         <module>components/msisdn-validator</module>
