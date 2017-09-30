@@ -1,6 +1,8 @@
 package com.wso2telco.core.config.util;
 
+import com.wso2telco.cache.manager.CacheManager;
 import com.wso2telco.core.config.model.PinConfig;
+import org.infinispan.Cache;
 import org.wso2.carbon.identity.application.authentication.framework.context.AuthenticationContext;
 
 /**
@@ -12,6 +14,7 @@ public class PinConfigUtil {
                                               boolean isRegistering) {
 
         PinConfig pinConfig = new PinConfig();
+        Cache<String, Object> cache = CacheManager.getInstance();
 
         if (isRegistering) {
             pinConfig.setCurrentStep(PinConfig.CurrentStep.REGISTRATION);
@@ -24,16 +27,18 @@ public class PinConfigUtil {
         pinConfig.setSessionId(authenticationContext.getContextIdentifier());
         pinConfig.setTotalAttempts(0);
 
-        authenticationContext.setProperty(Constants.PIN_CONFIG_OBJECT, pinConfig);
+
+        cache.put(authenticationContext.getContextIdentifier() + Constants.PIN_CONFIG_OBJECT, pinConfig);
     }
 
     public static void savePinConfigToContext(PinConfig pinConfig, AuthenticationContext authenticationContext) {
-
-        authenticationContext.setProperty(Constants.PIN_CONFIG_OBJECT, pinConfig);
+        Cache<String, Object> cache = CacheManager.getInstance();
+        cache.put(authenticationContext.getContextIdentifier() + Constants.PIN_CONFIG_OBJECT, pinConfig);
     }
 
     public static PinConfig getPinConfig(AuthenticationContext authenticationContext) {
-        return (PinConfig) authenticationContext.getProperty(Constants.PIN_CONFIG_OBJECT);
+        Cache<String, Object> cache = CacheManager.getInstance();
+        return (PinConfig) cache.get(authenticationContext.getContextIdentifier() + Constants.PIN_CONFIG_OBJECT);
     }
 
 }

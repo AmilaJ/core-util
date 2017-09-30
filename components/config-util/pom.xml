@@ -32,6 +32,18 @@
             <groupId>com.wso2telco.core</groupId>
             <artifactId>dbutils</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.wso2telco.ids</groupId>
+            <artifactId>cachemanager</artifactId>
+            <version>2.3.0-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.infinispan</groupId>
+            <artifactId>infinispan-core</artifactId>
+            <version>9.1.1.Final</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -46,7 +58,8 @@
                         <Bundle-Name>${project.artifactId}</Bundle-Name>
                         <Export-Package>com.wso2telco.core.*</Export-Package>
                         <Import-Package>
-                            org.osgi.framework
+                            org.osgi.framework,
+                            com.wso2telco.cache.manager.*
                         </Import-Package>
                         <Private-Package>
                             com.wso2telco.core.config.internal
